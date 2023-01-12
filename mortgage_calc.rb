@@ -1,7 +1,9 @@
 # mortgage / car loan calculator
-# takes 3 peices of info: the loan amount, the Annual Percentage Rate (APR), and the loan duration 
+
+# need 3 peices of info: the loan amount, the Annual Percentage Rate (APR), and the loan duration 
 # using the above info, calculate the monthly interest rate, loan duration in months, and monthly payment
-# you can use the following formula:
+
+# use the following formula:
 # m = p * (j / (1 - (1 + j)**(-n)))
 # m = monthly payment
 # p = loan payment
@@ -12,116 +14,127 @@
 # hints:
 # figure out what format inputs need to be in. Ex: should interest rate be expressed as 5 or .05 if you mean 5% interest?
 # If you're working with Annual Percentage Rate (APR), you'll need to convert that to a monthly interest rate
-# Be careful about the loan duration. Are you working with months or years? Choose variable names carefully to assist in remembering
+# Be careful about the loan duration. Are you working with months or years? Name variables carefully to assist in remembering
 
 # pseudo code:
-# given the loan amount, the APR, and the loan duration
-# calculate the monthly interest rate, loan duration in months, and monhtly payment
-# monthly interest rate = APR divided by 12
-# loan duration in months = total loan duration multiplies by 12 if given in years. If given in months then leave alone.
-# monthly payment = loan amount multiplied by (the monthly interest rate divided by (1 - (1+ monthly interest rate)to the negative loan duration in months power)) 
+# create a method for displaying messages to user
+# display a welcome message
+# ask user for their laon amount 
+# ask user for their annual percentage rate (annaul as in per year)
+# ask the user for their loan duration in years
+# calculate the monthly interest rate using the APR
+# calculate the loan duration in months using the loan duration in years
+# calculate the monthly payment using the formula referenced above
+# print "Your monthly interest rate:(monthly interest rate)"
+# print "Your loan duration in months is (loan duration in months)"
+# print "Your monthly payment is (monthly payment)"
 
 # START
-# PRINT "Enter your loan amount:"
-# GET/SET loan_amount = user input
-# PRINT "Enter the Annual Percentage Rate (APR):"
-# GET/SET apr = user input
-# PRINT "Enter the loan duration:"
-# GET/SET duration = user input
-# SET/READ monthly_interest = apr / 12
-# SET/READ duration_months = duration * 12
-# SET/READ monthly_payment = loan_amount * (monthly_interest / (1 - (1 + monthly_interest)**(-duration_months)))
-# PRINT "Your monthly interest rate is {monhtly_interest}"
-      # "Your loan duration in months is {duration_months}"
-      # "And your monthly payment is {monthly_payment}"
+
+# prompt method:
+# given a string
+# PRINT "==> (string)"
+
+# LOOP
+
+# prompt "Welcome to Mortgage Calculator!"
+
+# SET loan_amount = ''
+# LOOP
+# prompt "What is your loan amount?"
+# SET loan_amount = GET user input, remove trailing newline character
+# IF loan_amount is empty or less than 0 
+# prompt "Please enter a positive number."
+# ELSE 
+# break out of loop
+
+# SET APR = ''
+# LOOP
+# prompt "What is your Annual Percentage Rate (APR)?"
+# SET APR = GET user input, remove trailing newline character
+# IF APR is empty or less than 0 
+# prompt "Please enter a positive number."
+# ELSE
+# break out of loop
+
+# SET duration_years = ''
+# LOOP
+# prompt "What is your loan duration in years?"
+# SET duration_years = GET user input, remove trailing newline character
+# IF duration_years is empty or less than 0
+# prompt "Please enter a positive number."
+# ELSE
+# break out of loop
+
+# SET monthly_rate = (APR / 100) / 12
+# SET duration_months = duration_years multiplied by 12
+# SET monthly_payment = loan_amount * (monthly_rate / (1 - (1 + monthly_rate)**(-duration_months)))
+
+# prompt "Your monthly interest rate:(monthly interest rate)"
+# prompt "Your loan duration in months is (loan duration in months)"
+# prompt "Your monthly payment is (monthly payment)"
+
+# prompt "Would you like to do another calculation? (y/n)"
+# SET response = GET user input, remove trailing newline character
+# IF response equals 'n'
+# break out of loop
+
+# prompt "Thank you for using Mortgage Calculator!"
 # END
 
- # def prompt(message)
- #  puts "=> #{message}"
- # end 
-
- # prompt("Enter your loan amount:")
- # loan_amount = gets.chomp.to_f
-
- # prompt("Enter the Annual Percentage Rate (APR):")
- # apr = gets.chomp.to_f
-
- # prompt("Enter the loan duration in years:")
- # duration = gets.chomp.to_f
-
- # monthly_interest = apr / 12
- # duration_months = duration * 12
- # monthly_payment = loan_amount * (monthly_interest / (1 - (1 + monthly_interest)**(-duration_months)))
-
- # puts <<-MSG 
- #   Your monthly interest rate is #{monthly_interest}.
- #   Your loan duration in months is #{duration_months}.
- #   And your monthly payment is #{monthly_payment}.
- # MSG
-
- def prompt(message)
-  Kernel.puts("=> #{message}")
+def prompt(string)
+  puts "==> #{string}"
 end
 
 loop do
   prompt("Welcome to Mortgage Calculator!")
-  prompt("-------------------------------")
 
-  prompt("What is the loan amount?")
-
-  amount = ''
+  loan_amount = ''
   loop do
-    amount = Kernel.gets().chomp()
+    prompt("What's your loan amount")
+    loan_amount = gets.chomp
+    if (loan_amount.empty?) || (loan_amount.to_f < 0)
+      prompt("Please enter a positive number.")
+    else
+      break
+    end
+  end 
 
-    if amount.empty?() || amount.to_f() < 0
-      prompt("Must enter positive number.")
+  apr = ''
+  loop do
+    prompt("What's your Annual Percentage Rate (APR)?")
+    prompt("For example: enter 5 for 5%")
+    apr = gets.chomp
+    if (apr.empty?) || (apr.to_f < 0)
+      prompt("Please enter a positive number.")
     else
       break
     end
   end
 
-  prompt("What is the interest rate?")
-  prompt("(Example: 5 for 5% or 2.5 for 2.5%)")
-
-  interest_rate = ''
+  duration_years = ''
   loop do
-    interest_rate = Kernel.gets().chomp()
-
-    if interest_rate.empty?() || interest_rate.to_f() < 0
-      prompt("Must enter positive number.")
+    prompt("What is your loan duration in years?")
+    duration_years = gets.chomp
+    if (duration_years.empty?) || (duration_years.to_i < 0)
+      prompt("Please enter a positive number.")
     else
       break
     end
-  end
+  end 
 
-  prompt("What is the loan duration (in years)?")
+  monthly_rate = (apr.to_f / 100) / 12
+  duration_months = duration_years.to_i * 12
+  monthly_payment = loan_amount.to_f * (monthly_rate / (1 - (1 + monthly_rate)**(-duration_months)))
 
-  years = ''
-  loop do
-    years = Kernel.gets().chomp()
+  prompt("Your monthly interest rate is #{format("%.2f", monthly_rate)}")
+  prompt("Your loan duration in months is #{format("%.2f", duration_months)}")
+  prompt("Your monthly payment is #{format("%.2f", monthly_payment)}")
 
-    if years.empty?() || years.to_i() < 0
-      prompt("Enter a valid number")
-    else
-      break
-    end
-  end
-
-  annual_interest_rate = interest_rate.to_f() / 100
-  monthly_interest_rate = annual_interest_rate / 12
-  months = years.to_i() * 12
-
-  monthly_payment = amount.to_f() *
-                    (monthly_interest_rate/
-                    (1 - (1 + monthly_interest_rate)**(-months)))
-
-  prompt("Your monthly payment is: $#{format('%.2f', monthly_payment)}")
-
-  prompt("Another calculation?")
-  answer = Kernel.gets().chomp()
-
-  break unless answer.downcase().start_with?('y')
+  prompt("Would you like to do another calculation? (y/n)")
+  response = gets.chomp.downcase
+  break if response == 'n'
 end
 
-prompt("Thank you for using the Mortgage Calculator!")
-prompt("Good bye!")
+prompt("Thank you for using Mortgage Calculator!")
+
