@@ -50,13 +50,6 @@ end
 player_score = 0
 computer_score = 0
 
-score_board = <<-MSG
-**********SCORE BOARD**********
-          YOU: #{player_score}
-     COMPUTER: #{computer_score}
-*******************************
-MSG
-
 # GAME BEGINS
 loop do # main loop
   system "clear"
