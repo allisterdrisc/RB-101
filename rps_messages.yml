@@ -1,0 +1,40 @@
+# rps_bonus messages
+
+you_win: "You win!"
+
+computer_win: "Computer wins!"
+
+tie: "It's a tie!"
+
+you_grand_win: "YOU ARE THE GRAND WINNER!!"
+
+computer_grand_win: "Computer is the grand winner! Better luck next time."
+
+welcome:
+  "Welcome to Rock, Paper, Scissors, Lizard, Spock!
+
+  First player to 3 points is the grand winner!
+
+  Display game rules? (y/n)"
+  
+
+rules:
+  "Rock beats scissors and lizard
+
+  Paper beats rock and Spock
+
+  Scissors beats paper and lizard
+
+  Lizard beats Spock and paper
+
+  Spock beats rock and scissors"
+
+start: "Alright, let's start!"
+
+choose: "Choose one: "
+
+invalid: "That's not a valid choice."
+
+play_again?: "Do you want to play again? (y/n)"
+
+thanks: "Thank you for playing Rock, Paper, Scissors, Lizard, Spock!"

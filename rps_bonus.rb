@@ -1,6 +1,10 @@
 # rock paper scissors bonus
 
 # Constant variables and methods for program
+
+require 'yaml'
+MESSAGES = YAML.load_file('rps_messages.yml')
+
 WIN_HASH = {
   rock: ['scissors', 'lizard'],
   paper: ['rock', 'spock'],
@@ -16,13 +20,16 @@ VALID_CHOICES = {
   l: 'lizard',
   sp: 'spock'
 }
-
-def display_round(round)
-  prompt("Round: #{round}")
+def messages(message_key)
+  MESSAGES[message_key]
 end
 
 def prompt(message)
   puts("=> #{message}")
+end
+
+def display_round(round)
+  prompt("Round: #{round}")
 end
 
 def abbrev_to_full(valid_choices, player_choice)
@@ -31,19 +38,19 @@ end
 
 def display_result(player1_choice, player2_choice, win_hash)
   if win_hash[player1_choice.to_sym].include?(player2_choice)
-    puts "You win!"
+    prompt(messages('you_win'))
   elsif win_hash[player2_choice.to_sym].include?(player1_choice)
-    puts "Computer wins!"
+    prompt(messages('computer_win'))
   else
-    puts "It's a tie!"
+    prompt(messages('tie'))
   end
 end
 
 def display_grand_winner(score1, score2)
   if score1 == 3
-    prompt("YOU ARE THE GRAND WINNER!!")
+    prompt(messages('you_grand_win'))
   elsif score2 == 3
-    prompt("Computer is the grand winner! Better luck next time.")
+    prompt(messages('computer_grand_win'))
   end
 end
 
@@ -53,25 +60,16 @@ computer_score = 0
 # GAME BEGINS
 loop do # main loop
   system "clear"
-  prompt("Welcome to Rock, Paper, Scissors, Lizard, Spock!")
-  prompt("First player to 3 points is the grand winner!")
-  prompt("Display game rules? (y/n)")
+  prompt(messages('welcome'))
 
   answer = gets.chomp.downcase
   system "clear"
 
   if answer.start_with?('y')
-    puts("\n
-      Rock beats scissors and lizard \n
-      Paper beats rock and Spock \n
-      Scissors beats paper and lizard \n
-      Lizard beats Spock and paper \n
-      Spock beats rock and scissors \n
-      ")
+    puts(messages('rules'))
     sleep(7)
   else
-    prompt("Alright, let's start! \n
-      ")
+    prompt(messages('start'))
   end
 
   rounds = 1
@@ -84,7 +82,7 @@ loop do # main loop
 
     choice = ''
     loop do # validating choice loop
-      prompt("Choose one: ")
+      prompt(messages('choose'))
       VALID_CHOICES.each { |letter, word| puts("type: #{letter} for #{word}") }
 
       choice = gets.chomp.downcase
@@ -94,7 +92,7 @@ loop do # main loop
         break
       else
         system "clear"
-        prompt("That's not a valid choice.")
+        prompt(messages('invalid'))
       end
     end
 
@@ -127,9 +125,9 @@ loop do # main loop
   computer_score = 0
   rounds = 1
 
-  prompt("Do you want to play again? (y/n)")
+  prompt(messages('play_again?'))
   response = gets.chomp.downcase
   break if response.start_with?('n')
 end
 system "clear"
-prompt("Thank you for playing Rock, Paper, Scissors, Lizard, Spock!")
+prompt(messages('thanks'))
